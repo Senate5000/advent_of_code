@@ -6,7 +6,7 @@ def split_row_col_list(list_len, row_id, lower_half_val, upper_half_val):
             base_row_list = base_row_list[0:half_list]
         elif x == upper_half_val:
             base_row_list = base_row_list[half_list:]
-    return base_row_list[0] # probably a better way to get just one element out of a list
+    return base_row_list[0]
 
 def find_seat_id(seat_ids):
     seat_ids.sort()
