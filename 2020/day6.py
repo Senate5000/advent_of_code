@@ -1,44 +1,32 @@
 # with open("./input/day6_sample_input.txt") as f:
-def part_one(input):
-    with open(input) as f:
-        group_totals = []
-        group_set = set()
-        for line in f:
-            stripped_line = line.strip()
-            if stripped_line:
-                for c in stripped_line:
-                    group_set.add(c)
-            else:
-                group_totals.append(len(group_set))
-                group_set = set()
-        group_totals.append(len(group_set)) # hacky way to get last group
-    return sum(group_totals)
+def do_set_stuff(group, version):
+    modified_group = []
+    if version == 1:
+        modified_group = set.union(*group)
+    elif version == 2:
+        modified_group = set.intersection(*group)
+    return len(modified_group)
 
-def part_two(input):
+def check_input(input, version):
     with open(input) as f:
         group_totals = []
-        group = [] # this will hold many sets
+        group = []
         for line in f:
             stripped_line = line.strip()
             if stripped_line:
-                line_set = set(stripped_line)
-                group.append(line_set)
+                group.append(set(stripped_line))
             else:
-                group_intersection = group[0].intersection(*group)
-                if group_intersection:
-                    group_totals.append(len(group_intersection))
+                group_len = do_set_stuff(group, version)
+                group_totals.append(group_len)
                 group = []
-        group_intersection = group[0].intersection(*group)
-        if group_intersection:
-            group_totals.append(len(group_intersection))
-
-        return sum(group_totals)
+        group_totals.append(do_set_stuff(group, version)) # hacky way to get last group
+    return sum(group_totals)
 
 def main():
     # file_input = "./input/day6_sample_input.txt"
     file_input = "./input/day6_input.txt"
-    part_one_results = part_one(file_input)
-    part_two_results = part_two(file_input)
+    part_one_results = check_input(file_input, 1)
+    part_two_results = check_input(file_input, 2)
 
     print(f"Part One: {part_one_results}")
     print(f"Part Two: {part_two_results}")
